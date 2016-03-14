@@ -9,7 +9,6 @@ url = "http://requestb.in/1mj62581?inspect"
 headers = {'content-type': 'application/json'}
 
 touch1 = ttp223.TTP223(4)
-touch2 = ttp223.TTP223(8)
 
 # Create the button object using GPIO pin 0
 button = grove.GroveButton(8)
@@ -42,13 +41,11 @@ def enter(button, tID):
         requests.post(url, params=data, headers=headers)
 
 while True:
-    sendInfo(touch1, 1)
-    sendInfo(touch2, 2)
+    # sendInfo(touch1, 1)
     enter(button, 1)
     time.sleep(0.1)
 
 del touch1
-del touch2
 del button
 # Delete the buzzer object
 # del buzzer
