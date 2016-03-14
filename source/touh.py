@@ -31,7 +31,6 @@ def sendInfo(touch, tId, Pressed):
 while True:
     touch1Pressed = sendInfo(touch1, 1, touch1Pressed)
     touch2Pressed = sendInfo(touch2, 2, touch2Pressed)
-    print touch1Pressed
     time.sleep(1)
 
 del touch1
