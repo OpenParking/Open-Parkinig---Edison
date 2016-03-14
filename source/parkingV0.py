@@ -21,24 +21,25 @@ myLcd.write(str(valor))
 
 
 def sendInfo(touch, tId):
+    global valor
     if touch.isPressed():
         valor += 1
         myLcd.setCursor(0, 0)
         myLcd.write(str(valor))
-        Pressed = True
         data = {"Id": "AI", "Espacio": tId, "Estado": "Entro"}
         data = json.dumps(data)
         requests.post(url, params=data, headers=headers)
 
 
 def enter(button, tID):
-	if(button.value() != 0):
+    global valor
+    if(button.value() != 0):
         valor -= 1
         myLcd.setCursor(0, 0)
         myLcd.write(str(valor))
-		data = {"Id": "AI", "Espacio": tId, "Estado": "Salio"}
-		data = json.dumps(data)
-		requests.post(url, params=data, headers=headers)
+        data = {"Id": "AI", "Espacio": tID, "Estado": "Salio"}
+        data = json.dumps(data)
+        requests.post(url, params=data, headers=headers)
 
 while True:
     sendInfo(touch1, 1)
