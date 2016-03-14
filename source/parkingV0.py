@@ -21,6 +21,7 @@ myLcd.write(str(valor))
 
 def sendInfo(touch, tId):
     global valor
+    print touch.name()
     if touch.isPressed():
         valor += 1
         myLcd.setCursor(0, 0)
@@ -41,7 +42,7 @@ def enter(button, tID):
         requests.post(url, params=data, headers=headers)
 
 while True:
-    # sendInfo(touch1, 1)
+    sendInfo(touch1, 1)
     enter(button, 1)
     time.sleep(0.1)
 
