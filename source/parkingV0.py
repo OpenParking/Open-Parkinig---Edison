@@ -21,8 +21,8 @@ myLcd.write(str(valor))
 
 def sendInfo(touch, tId):
     global valor
-    print touch.name()
     if touch.isPressed():
+        print touch.name()
         valor += 1
         myLcd.setCursor(0, 0)
         myLcd.write(str(valor))
