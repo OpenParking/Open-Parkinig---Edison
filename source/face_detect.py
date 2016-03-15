@@ -5,7 +5,7 @@ import sys
 # Get user supplied values
 cascPath = sys.argv[1]
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 # Create the haar cascade
 faceCascade = cv2.CascadeClassifier(cascPath)
