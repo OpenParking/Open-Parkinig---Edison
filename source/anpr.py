@@ -10,8 +10,9 @@ from pytesseract import *
 vidCap = cv2.VideoCapture(0)
 
 while True:
-    ret, frame = vidCap.read()
-    resize = cv.CreateMat(original.rows/ 10, original.cols / 10, original.type)
+    ret, original = vidCap.read()
+    resize = cv.CreateMat(original.rows / 10, original.cols / 10, original.type)
+    cv.Resize(original, resize)
 
 original = cv.LoadImageM("plate.jpg")
 resize = cv.CreateMat(original.rows / 10, original.cols / 10, original.type)
