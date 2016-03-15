@@ -5,8 +5,8 @@ import json
 import pyupm_grove as grove
 import pyupm_i2clcd as lcd
 
-url = "http://requestb.in/1mj62581?inspect"
-headers = {'content-type': 'application/json'}
+urlEntrada = "10.43.36.225:3000/enter"
+urlSalida = "10.43.36.225:3000/leave"
 
 touch1 = ttp223.TTP223(4)
 
@@ -26,9 +26,7 @@ def sendInfo(touch, tId):
         valor += 1
         myLcd.setCursor(0, 0)
         myLcd.write(str(valor))
-        data = {"Id": "AI", "Espacio": tId, "Estado": "Entro"}
-        data = json.dumps(data)
-        requests.post(url, params=data, headers=headers)
+        requests.get(url+tId)
 
 
 def enter(button, tID):
@@ -37,14 +35,12 @@ def enter(button, tID):
         valor -= 1
         myLcd.setCursor(0, 0)
         myLcd.write(str(valor))
-        data = {"Id": "AI", "Espacio": tID, "Estado": "Salio"}
-        data = json.dumps(data)
-        requests.post(url, params=data, headers=headers)
+        requests.get(url + tId)
 
 while True:
-    sendInfo(touch1, 1)
-    enter(button, 1)
-    time.sleep(0.1)
+    sendInfo(touch1,'Z1')
+    enter(button,'Z1')
+    time.sleep(0.2)
 
 del touch1
 del button
