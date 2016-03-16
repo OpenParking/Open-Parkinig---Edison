@@ -67,9 +67,9 @@ def enter(button, tId, url):
 
 
 #URL from the app
-urlEntrada = "http://198.199.119.166:3000/enterzone"
-urlSalida = "http://198.199.119.166:3000/leavezone"
-urlzone = "http://198.199.119.166:3000/zones"
+urlEntrada = "http://198.199.119.166/enterzone"
+urlSalida = "http://198.199.119.166/leavezone"
+urlzone = "http://198.199.119.166/zones"
 
 zone = raw_input("Zone ID: ")
 Correct = inputDetection(zone,urlzone)
