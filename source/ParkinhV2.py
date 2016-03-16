@@ -7,6 +7,7 @@ import pyupm_i2clcd as lcd
 
 urlEntrada = "http://secure-badlands-53433.herokuapp.com/enterzone/Z2"
 urlSalida = "http://secure-badlands-53433.herokuapp.com/leavezone/Z2"
+urlzone = "http://secure-badlands-53433.herokuapp.com/zones/Z2"
 
 touch1 = ttp223.TTP223(4)
 
@@ -26,7 +27,6 @@ def sendInfo(touch, tId):
         myLcd.setCursor(0, 0)
         myLcd.write(str(valor))
         r = requests.put(urlEntrada)
-	print r
 
 def enter(button, tID):
     global valor
@@ -35,7 +35,6 @@ def enter(button, tID):
         myLcd.setCursor(0, 0)
         myLcd.write(str(valor))
         r = requests.put(urlSalida)
-	print r
 
 while True:
     sendInfo(touch1,2)
