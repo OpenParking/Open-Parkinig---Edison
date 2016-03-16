@@ -55,8 +55,6 @@ def changeLCD(value, cap):
 		myLcd.write("Available: " +str(currentCapacity))
 		
 
-zone =str(input("Zone ID: "))
-Corret = inputDetection(zone,urlzone)
 	
 # Create the touch object using GPIO pin 4    
 touch1 = ttp223.TTP223(4)
@@ -65,12 +63,12 @@ button = grove.GroveButton(8)
 #Create the lcd object
 myLcd = lcd.Jhd1313m1(4, 0x3E, 0x62)
 #Values from the db
-currentCapacity = checkCapacity(zone, urlzone)
+currentCapacity = checkCapacity("Z2", urlzone)
 capacity = checkMax(zone,urlzone)
 
 #LCD first display
 myLcd.setCursor(0, 0)
-myLcd.write("zone: " +str(checkZone(zone,urlzone)))
+myLcd.write("zone: " +str(checkZone("Z2",urlzone)))
 changeLCD(currentCapacity, capacity)
 
 def exit(touch, tId, url):
@@ -93,8 +91,8 @@ def enter(button, tId, url):
 
 
 while Correct:
-    exit(touch1, zone, urlSalida)
-    enter(button, zone, urlEntrada)
+    exit(touch1, "Z2", urlSalida)
+    enter(button, "Z2", urlEntrada)
     time.sleep(0.2)
 
 del touch1
