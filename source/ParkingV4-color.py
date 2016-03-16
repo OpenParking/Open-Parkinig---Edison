@@ -11,12 +11,12 @@ urlSalida = "http://secure-badlands-53433.herokuapp.com/leavezone"
 urlzone = "http://secure-badlands-53433.herokuapp.com/zones"
 
 def inputDetection():
-	zone = input("Enter the zone ID")
+	zone = input("Enter the zone ID: ")
 	r = requests.get(url+"/"+tId)
 	if (r.status_code == 404):
-		return false
+		return False
 	else:
-		return true
+		return True
 
 #Funtion to get the available spaces on the zone
 def checkCapacity(tId,url):
