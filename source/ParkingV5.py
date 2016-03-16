@@ -65,12 +65,12 @@ button = grove.GroveButton(8)
 #Create the lcd object
 myLcd = lcd.Jhd1313m1(4, 0x3E, 0x62)
 #Values from the db
-currentCapacity = checkCapacity("Z2", urlzone)
-capacity = checkMax("Z2",urlzone)
+currentCapacity = checkCapacity(zone, urlzone)
+capacity = checkMax(zone,urlzone)
 
 #LCD first display
 myLcd.setCursor(0, 0)
-myLcd.write("zone: " +str(checkZone("Z2",urlzone)))
+myLcd.write("zone: " +str(checkZone(zone,urlzone)))
 changeLCD(currentCapacity, capacity)
 
 def exit(touch, tId, url):
@@ -93,8 +93,8 @@ def enter(button, tId, url):
 
 
 while Correct:
-    exit(touch1, "Z2", urlSalida)
-    enter(button, "Z2", urlEntrada)
+    exit(touch1, zone, urlSalida)
+    enter(button, zone, urlEntrada)
     time.sleep(0.2)
 
 del touch1
