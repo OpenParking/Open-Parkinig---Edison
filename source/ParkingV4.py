@@ -31,6 +31,7 @@ touch1 = ttp223.TTP223(4)
 button = grove.GroveButton(8)
 myLcd = lcd.Jhd1313m1(4, 0x3E, 0x62)
 valor = checkCapacity("Z2", urlzone)
+capacity = checkMax("Z2",urlzone)
 
 myLcd.setCursor(0, 0)
 myLcd.write("zone: " +str(checkZone("Z2",urlzone)))
@@ -39,14 +40,15 @@ myLcd.setCursor(1, 0)
 myLcd.write("Available: " +str(valor))
 
 
-def exit(touch, tIdd, urll):
+def exit(touch, tId, url):
     global valor
+    global capacity
     if touch.isPressed():
-        valor += 1
-        myLcd.setCursor(1, 11)
-        myLcd.write(str(valor))
-        r = requests.put(url+"/"+tId)
-        print checkMax(tIdd,urll)  
+        if (valor > capacity):
+            valor += 1
+            myLcd.setCursor(1, 11)
+            myLcd.write(str(valor))
+            r = requests.put(url+"/"+tId)
 
 def enter(button, tId, url):
     global valor
