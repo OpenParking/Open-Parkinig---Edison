@@ -85,7 +85,7 @@ def enter(button, tId, url):
 	    changeLCD(currentCapacity, capacity)
             r = requests.put(url+"/"+tId)
 
-zone = input("Enter the zone ID: ")
+str(zone) = input("Enter the zone ID: ")
 correctZone = inputDetection(zone,urlzone)
 while correctZone:
     exit(touch1, zone, urlSalida)
