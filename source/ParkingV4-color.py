@@ -10,7 +10,7 @@ urlEntrada = "http://secure-badlands-53433.herokuapp.com/enterzone"
 urlSalida = "http://secure-badlands-53433.herokuapp.com/leavezone"
 urlzone = "http://secure-badlands-53433.herokuapp.com/zones"
 
-def inputDetection(zone):
+def inputDetection(zone,url):
 	r = requests.get(url+"/"+zone)
 	if (r.status_code == 404):
 		return False
@@ -88,8 +88,8 @@ def enter(button, tId, url):
 zone = input("Enter the zone ID: ")
 correctZone = inputDetection(zone)
 while correctZone:
-    exit(touch1, str(zone), urlSalida)
-    enter(button, str(zone), urlEntrada)
+    exit(touch1, zone, urlSalida)
+    enter(button, zone, urlEntrada)
     time.sleep(0.2)
 
 del touch1
