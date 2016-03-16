@@ -10,13 +10,6 @@ urlEntrada = "http://secure-badlands-53433.herokuapp.com/enterzone"
 urlSalida = "http://secure-badlands-53433.herokuapp.com/leavezone"
 urlzone = "http://secure-badlands-53433.herokuapp.com/zones"
 
-def inputDetection(zone):
-	r = requests.get(url+"/"+zone)
-	if (r.status_code == 404):
-		return False
-	else:
-		return True
-
 #Funtion to get the available spaces on the zone
 def checkCapacity(tId,url):
     r = requests.get(url+"/"+tId)
@@ -85,11 +78,10 @@ def enter(button, tId, url):
 	    changeLCD(currentCapacity, capacity)
             r = requests.put(url+"/"+tId)
 
-zone = input("Enter the zone ID: ")
-correctZone = inputDetection(zone)
-while correctZone:
-    exit(touch1, zone, urlSalida)
-    enter(button, zone, urlEntrada)
+
+while True:
+    exit(touch1, "Z2", urlSalida)
+    enter(button, "Z2"), urlEntrada)
     time.sleep(0.2)
 
 del touch1
