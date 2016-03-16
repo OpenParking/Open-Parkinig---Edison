@@ -5,10 +5,22 @@ import json
 import pyupm_grove as grove
 import pyupm_i2clcd as lcd
 
+
+
 #URL from the app
 urlEntrada = "http://secure-badlands-53433.herokuapp.com/enterzone"
 urlSalida = "http://secure-badlands-53433.herokuapp.com/leavezone"
 urlzone = "http://secure-badlands-53433.herokuapp.com/zones"
+
+def inputDetection(zone,url):
+	r = requests.get(url + "/" +zone)
+	if (r.status_code == 404):
+		return False
+	else:
+		return True
+
+zone =str(input("Zone ID: "))
+Corret = inputDetection(zone,urlzone)
 
 #Funtion to get the available spaces on the zone
 def checkCapacity(tId,url):
@@ -79,9 +91,9 @@ def enter(button, tId, url):
             r = requests.put(url+"/"+tId)
 
 
-while True:
+while Correct:
     exit(touch1, "Z2", urlSalida)
-    enter(button, "Z2"), urlEntrada)
+    enter(button, "Z2", urlEntrada)
     time.sleep(0.2)
 
 del touch1
