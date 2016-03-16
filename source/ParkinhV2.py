@@ -9,16 +9,21 @@ urlEntrada = "http://secure-badlands-53433.herokuapp.com/enterzone/Z2"
 urlSalida = "http://secure-badlands-53433.herokuapp.com/leavezone/Z2"
 urlzone = "http://secure-badlands-53433.herokuapp.com/zones/Z2"
 
+def checkCapacity():
+    global valor
+    r = requests.get(urlzone)
+    data = r.json()
+    return data["capacity"] - data["full"]
+
 touch1 = ttp223.TTP223(4)
 
 # Create the button object using GPIO pin 0
 button = grove.GroveButton(8)
 myLcd = lcd.Jhd1313m1(4, 0x3E, 0x62)
-valor = 223
+valor = checkCapacity()
 myLcd.setCursor(0, 0)
 myLcd.setColor(53, 39, 249)
 myLcd.write(str(valor))
-
 
 def sendInfo(touch, tId):
     global valor
@@ -26,7 +31,7 @@ def sendInfo(touch, tId):
         valor += 1
         myLcd.setCursor(0, 0)
         myLcd.write(str(valor))
-        r = requests.put(urlEntrada)
+        r = requests.put(urlSalida)
 
 def enter(button, tID):
     global valor
@@ -34,7 +39,7 @@ def enter(button, tID):
         valor -= 1
         myLcd.setCursor(0, 0)
         myLcd.write(str(valor))
-        r = requests.put(urlSalida)
+        r = requests.put(urlEntrada)
 
 while True:
     sendInfo(touch1,2)
