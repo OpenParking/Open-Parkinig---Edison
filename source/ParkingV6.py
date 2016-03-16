@@ -67,9 +67,9 @@ def enter(button, tId, url):
 
 
 #URL from the app
-urlEntrada = "http://secure-badlands-53433.herokuapp.com/enterzone"
-urlSalida = "http://secure-badlands-53433.herokuapp.com/leavezone"
-urlzone = "http://secure-badlands-53433.herokuapp.com/zones"
+urlEntrada = "http://198.199.119.166:3000/enterzone"
+urlSalida = "http://198.199.119.166:3000/leavezone"
+urlzone = "http://198.199.119.166:3000/zones"
 
 zone = raw_input("Zone ID: ")
 Correct = inputDetection(zone,urlzone)
