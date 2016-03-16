@@ -65,14 +65,15 @@ def enter(button, tId, url):
     if(button.value() != 0):
         if (valor > 0):
             valor -= 1
-            if ((capacity/valor) <= 0.25):
-                myLcd.setColor(0, 255, 0)
-            elif((capacity/valor) <= 0.50):
-                myLcd.setColor(255, 255, 0)
-            elif((capacity/valor) <= 0.75):
-                myLcd.setColor(255, 165, 0)
-            elif((capacity/valor) <= 1):
-                myLcd.setColor(255, 0, 0)
+            
+            if ((valor / capacity) <= 0.25):
+		myLcd.setColor(0,255,0)
+	    elif((valor / capacity) <= 0.50):
+		myLcd.setColor(255,255,0)
+	    elif((valor / capacity) <= 0.75):
+		myLcd.setColor(255,165,0)
+	    elif((valor / capacity) <= 1):
+		myLcd.setColor(255,0,0)
             myLcd.setCursor(1,11)
             myLcd.write(str(valor))
             r = requests.put(url+"/"+tId)
