@@ -12,7 +12,6 @@ urlzone = "http://secure-badlands-53433.herokuapp.com/zones"
 
 #Funtion to get the available spaces on the zone
 def checkCapacity(tId,url):
-    global valor
     r = requests.get(url+"/"+tId)
     data = r.json()
     return data["capacity"] - data["full"]
@@ -28,24 +27,9 @@ def checkZone(tId,url):
     r = requests.get(url+"/"+tId)
     data = r.json()
     return data["name"]
-    
-# Create the touch object using GPIO pin 4    
-touch1 = ttp223.TTP223(4)
-# Create the button object using GPIO pin 8
-button = grove.GroveButton(8)
-#Create the lcd object
-myLcd = lcd.Jhd1313m1(4, 0x3E, 0x62)
-#Values from the db
-valor = checkCapacity("Z2", urlzone)
-capacity = checkMax("Z2",urlzone)
-
-myLcd.setCursor(0, 0)
-myLcd.write("zone: " +str(checkZone("Z2",urlzone)))
-myLcd.setColor(255,255,0)
-myLcd.setCursor(1, 0)
-myLcd.write("Available: " +str(valor))
-
-def colorChangeLCD(percentage):
+#Function to change the color of the LCD depending on the spaces available
+def changeLCD(value, cap):
+	percentage = float(value) / capacity
 	if (percentage <= 0.25):
 		myLcd.setColor(255,0,0)
 	elif(percentage <= 0.50):
@@ -54,30 +38,41 @@ def colorChangeLCD(percentage):
 		myLcd.setColor(255,255,0)
 	elif(percentage <= 1):
 		myLcd.setColor(0,255,0)
+	myLcd.setCursor(1, 0)
+	myLcd.write("Available: " +str(currentCapacity))
+		
+# Create the touch object using GPIO pin 4    
+touch1 = ttp223.TTP223(4)
+# Create the button object using GPIO pin 8
+button = grove.GroveButton(8)
+#Create the lcd object
+myLcd = lcd.Jhd1313m1(4, 0x3E, 0x62)
+#Values from the db
+currentCapacity = checkCapacity("Z2", urlzone)
+capacity = checkMax("Z2",urlzone)
+
+#LCD first display
+myLcd.setCursor(0, 0)
+myLcd.write("zone: " +str(checkZone("Z2",urlzone)))
+changeLCD(currentCapacity, capacity)
 
 def exit(touch, tId, url):
-    global valor
+    global currentCapacity
     global capacity
     if touch.isPressed():
-        if (valor < capacity):
-            valor += 1
-            percentage = float(valor) / capacity
-	    colorChangeLCD(percentage)
-            myLcd.setCursor(1, 11)
-            myLcd.write(str(valor))
+        if (currentCapacity < capacity):
+            currentCapacity += 1
+	    changeLCD(currentCapacity, capacity)
             r = requests.put(url+"/"+tId)    
                 
 
 def enter(button, tId, url):
-    global valor
+    global currentCapacity
     global capacity
     if(button.value() != 0):
-        if (valor > 0):
-            valor -= 1
-            percentage = float(valor) / capacity
-	    colorChangeLCD(percentage)
-	    myLcd.setCursor(1,11)
-            myLcd.write(str(valor))
+        if (currentCapacity > 0):
+            currentCapacity -= 1
+	    changeLCD(currentCapacity, capacity)
             r = requests.put(url+"/"+tId)
         
 while True:
