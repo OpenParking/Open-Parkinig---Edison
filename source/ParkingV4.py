@@ -44,7 +44,7 @@ def exit(touch, tId, url):
     global valor
     global capacity
     if touch.isPressed():
-        if (valor > capacity):
+        if (valor < capacity):
             valor += 1
             myLcd.setCursor(1, 11)
             myLcd.write(str(valor))
