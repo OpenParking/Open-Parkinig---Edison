@@ -46,8 +46,7 @@ def exit(touch, tId, url):
     if touch.isPressed():
         if (valor < capacity):
             valor += 1
-            porcentaje = valor / capacity
-            print porcentaje
+            porcentaje = float(valor) / capacity
 	    if (porcentaje <= 0.25):
 		myLcd.setColor(0,255,0)
 	    elif(porcentaje <= 0.50):
@@ -64,10 +63,11 @@ def exit(touch, tId, url):
 
 def enter(button, tId, url):
     global valor
+    global capacity
     if(button.value() != 0):
         if (valor > 0):
             valor -= 1
-            print porcentaje
+            porcentaje = float(valor) / capacity
 	    if (porcentaje <= 0.25):
 		myLcd.setColor(0,255,0)
 	    elif(porcentaje <= 0.50):
