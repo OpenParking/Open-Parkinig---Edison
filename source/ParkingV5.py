@@ -19,9 +19,6 @@ def inputDetection(zone,url):
 	else:
 		return True
 
-zone =str(input("Zone ID: "))
-Corret = inputDetection(zone,urlzone)
-
 #Funtion to get the available spaces on the zone
 def checkCapacity(tId,url):
     r = requests.get(url+"/"+tId)
@@ -56,6 +53,10 @@ def changeLCD(value, cap):
 		myLcd.write("Available: " +"0"+str(currentCapacity))
 	else:
 		myLcd.write("Available: " +str(currentCapacity))
+		
+
+zone =str(input("Zone ID: "))
+Corret = inputDetection(zone,urlzone)
 	
 # Create the touch object using GPIO pin 4    
 touch1 = ttp223.TTP223(4)
