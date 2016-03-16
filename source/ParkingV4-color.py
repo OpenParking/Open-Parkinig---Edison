@@ -39,11 +39,10 @@ def changeLCD(value, cap):
 	elif(percentage <= 1):
 		myLcd.setColor(0,255,0)
 	myLcd.setCursor(1, 0)
-	if(value < 10){
+	if(value < 10):
 		myLcd.write("Available: " +"0"+str(currentCapacity))
-	}else{
+	else:
 		myLcd.write("Available: " +str(currentCapacity))
-	}
 	
 		
 # Create the touch object using GPIO pin 4    
