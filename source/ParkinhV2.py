@@ -5,8 +5,8 @@ import json
 import pyupm_grove as grove
 import pyupm_i2clcd as lcd
 
-urlEntrada = "10.43.36.225:3000/enter"
-urlSalida = "10.43.36.225:3000/leave"
+urlEntrada = "http://secure-badlands-53433.herokuapp.com/enterzone/Z2"
+urlSalida = "http://secure-badlands-53433.herokuapp.com/leavezone/Z2"
 
 touch1 = ttp223.TTP223(4)
 
@@ -22,12 +22,11 @@ myLcd.write(str(valor))
 def sendInfo(touch, tId):
     global valor
     if touch.isPressed():
-        print touch.name()
         valor += 1
         myLcd.setCursor(0, 0)
         myLcd.write(str(valor))
-        requests.get(url+tId)
-
+        r = requests.put(urlEntrada)
+	print r
 
 def enter(button, tID):
     global valor
@@ -35,11 +34,12 @@ def enter(button, tID):
         valor -= 1
         myLcd.setCursor(0, 0)
         myLcd.write(str(valor))
-        requests.get(url + tId)
+        r = requests.put(urlSalida)
+	print r
 
 while True:
-    sendInfo(touch1,'Z1')
-    enter(button,'Z1')
+    sendInfo(touch1,2)
+    enter(button,2)
     time.sleep(0.2)
 
 del touch1
