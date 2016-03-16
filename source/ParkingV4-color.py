@@ -46,14 +46,14 @@ myLcd.setCursor(1, 0)
 myLcd.write("Available: " +str(valor))
 
 def colorChangeLCD(percentage):
-	if (percentage <= 1):
-		myLcd.setColor(0,255,0)
-	elif(percentage <= 0.75):
-		myLcd.setColor(255,255,0)
-	elif(percentage<= 0.50):
-		myLcd.setColor(255,165,0)
-	elif(percentage <= .25):
+	if (percentage <= 0.25):
 		myLcd.setColor(255,0,0)
+	elif(percentage <= 0.50):
+		myLcd.setColor(255,165,0)
+	elif(percentage<= 0.75):
+		myLcd.setColor(255,255,0)
+	elif(percentage <= 1):
+		myLcd.setColor(0,255,0)
 
 def exit(touch, tId, url):
     global valor
