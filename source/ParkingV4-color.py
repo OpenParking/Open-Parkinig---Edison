@@ -35,7 +35,7 @@ capacity = checkMax("Z2",urlzone)
 
 myLcd.setCursor(0, 0)
 myLcd.write("zone: " +str(checkZone("Z2",urlzone)))
-myLcd.setColor(53, 39, 249)
+myLcd.setColor(255,255,0)
 myLcd.setCursor(1, 0)
 myLcd.write("Available: " +str(valor))
 
@@ -46,13 +46,15 @@ def exit(touch, tId, url):
     if touch.isPressed():
         if (valor < capacity):
             valor += 1
-	    if ((valor / capacity) <= 0.25):
+            porcentaje = valor / capacity
+            print porcentaje
+	    if (porcentaje <= 0.25):
 		myLcd.setColor(0,255,0)
-	    elif((valor / capacity) <= 0.50):
+	    elif(porcentaje <= 0.50):
 		myLcd.setColor(255,255,0)
-	    elif((valor / capacity) <= 0.75):
+	    elif(porcentaje<= 0.75):
 		myLcd.setColor(255,165,0)
-	    elif((valor / capacity) <= 1):
+	    elif(porcentaje <= 1):
 		myLcd.setColor(255,0,0)
 
             myLcd.setCursor(1, 11)
@@ -65,14 +67,14 @@ def enter(button, tId, url):
     if(button.value() != 0):
         if (valor > 0):
             valor -= 1
-            
-            if ((valor / capacity) <= 0.25):
+            print porcentaje
+	    if (porcentaje <= 0.25):
 		myLcd.setColor(0,255,0)
-	    elif((valor / capacity) <= 0.50):
+	    elif(porcentaje <= 0.50):
 		myLcd.setColor(255,255,0)
-	    elif((valor / capacity) <= 0.75):
+	    elif(porcentaje<= 0.75):
 		myLcd.setColor(255,165,0)
-	    elif((valor / capacity) <= 1):
+	    elif(porcentaje <= 1):
 		myLcd.setColor(255,0,0)
             myLcd.setCursor(1,11)
             myLcd.write(str(valor))
