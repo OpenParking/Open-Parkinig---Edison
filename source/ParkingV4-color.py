@@ -86,7 +86,7 @@ def enter(button, tId, url):
             r = requests.put(url+"/"+tId)
 
 zone = input("Enter the zone ID: ")
-correctZone = inputDetection(zone)
+correctZone = inputDetection(zone,urlzone)
 while correctZone:
     exit(touch1, zone, urlSalida)
     enter(button, zone, urlEntrada)
