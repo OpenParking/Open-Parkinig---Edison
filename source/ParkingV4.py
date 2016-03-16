@@ -39,14 +39,14 @@ myLcd.setCursor(1, 0)
 myLcd.write("Available: " +str(valor))
 
 
-def exit(touch, tId, url):
+def exit(touch, tIdd, urll):
     global valor
     if touch.isPressed():
         valor += 1
         myLcd.setCursor(1, 11)
         myLcd.write(str(valor))
         r = requests.put(url+"/"+tId)
-        print checkMax(tId,url)  
+        print checkMax(tIdd,urll)  
 
 def enter(button, tId, url):
     global valor
