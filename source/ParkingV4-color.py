@@ -10,6 +10,14 @@ urlEntrada = "http://secure-badlands-53433.herokuapp.com/enterzone"
 urlSalida = "http://secure-badlands-53433.herokuapp.com/leavezone"
 urlzone = "http://secure-badlands-53433.herokuapp.com/zones"
 
+def inputDetection():
+	zone = input("Enter the zone ID")
+	r = requests.get(url+"/"+tId)
+	if (r.status_code == 404):
+		return false
+	else:
+		return true
+
 #Funtion to get the available spaces on the zone
 def checkCapacity(tId,url):
     r = requests.get(url+"/"+tId)
@@ -27,6 +35,7 @@ def checkZone(tId,url):
     r = requests.get(url+"/"+tId)
     data = r.json()
     return data["name"]
+    
 #Function to change the color of the LCD depending on the spaces available
 def changeLCD(value, cap):
 	percentage = float(value) / capacity
@@ -44,7 +53,6 @@ def changeLCD(value, cap):
 	else:
 		myLcd.write("Available: " +str(currentCapacity))
 	
-		
 # Create the touch object using GPIO pin 4    
 touch1 = ttp223.TTP223(4)
 # Create the button object using GPIO pin 8
@@ -69,7 +77,6 @@ def exit(touch, tId, url):
 	    changeLCD(currentCapacity, capacity)
             r = requests.put(url+"/"+tId)    
                 
-
 def enter(button, tId, url):
     global currentCapacity
     global capacity
@@ -78,8 +85,9 @@ def enter(button, tId, url):
             currentCapacity -= 1
 	    changeLCD(currentCapacity, capacity)
             r = requests.put(url+"/"+tId)
-        
-while True:
+            
+correctZone = inputDetection()
+while correctZone:
     exit(touch1,"Z2", urlSalida)
     enter(button,"Z2", urlEntrada)
     time.sleep(0.2)
