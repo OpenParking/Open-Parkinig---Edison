@@ -1,3 +1,6 @@
+#File: Parking-Edison-V6
+
+# ----- Seccion Import ---
 import time
 import pyupm_ttp223 as ttp223
 import requests
@@ -5,6 +8,9 @@ import json
 import pyupm_grove as grove
 import pyupm_i2clcd as lcd
 
+#Function Detecte Url
+#Detected if the url is balid
+#This function recive the zone and the url page and return True or False
 def inputDetection(zone,url):
     r = requests.get(url + "/" +zone)
     if (r.status_code == 404):
@@ -12,24 +18,29 @@ def inputDetection(zone,url):
     else:
         return True
 
-#Funtion to get the available spaces on the zone
+#Funtion checkCapacity
+#This function send request.get for obtain,
+#the total cars that the zone have in the moment
 def checkCapacity(tId,url):
     r = requests.get(url+"/"+tId)
     data = r.json()
     return data["capacity"] - data["full"]
 
-#Function to get the capacity of the zone from json
+#Function checkMax
+#This function to get the capacity of the zone from json
 def checkMax(tId,url):
     r = requests.get(url+"/"+tId)
     data = r.json()
     return data["capacity"]
 
-#Function to get the zone of name from the json
+#Function checkZone
+#This function to get the zone of name from the json
 def checkZone(tId,url):
     r = requests.get(url+"/"+tId)
     data = r.json()
     return data["name"]
-    
+
+#Function cheangeLCD
 #Function to change the color of the LCD depending on the spaces available
 def changeLCD(value, cap):
     percentage = float(value) / capacity
