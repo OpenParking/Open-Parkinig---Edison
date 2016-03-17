@@ -20,7 +20,7 @@ def inputDetection(zone,url):
         return True
 
 #Funtion configureFile
-#Function to load configure file or create it if it doesn´t exist
+#Function to load configure file or create it if it doesntt exist
 def configureFile():
     if(os.path.isfile("configure.txt")):
         #Reads the configure file to load the zone
