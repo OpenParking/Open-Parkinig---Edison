@@ -5,7 +5,6 @@ import sys
 import os
 import requests
 import json
-# import paho.mqtt.client as client
 
 headers = {'content-type': 'application/json'}
 url = "http://requestb.in/vd5wylvd"
@@ -20,9 +19,6 @@ alpr.set_top_n(1)
 alpr.set_default_region("us")
 
 cap = cv2.VideoCapture(1)
-
-# mqttc = client.Client()
-# mqttc.connect("localhost", 1883, 60)
 
 probablePlates = {}
 wasPlate = False
@@ -48,9 +44,7 @@ while True:
                 mostProbable = plate[0]
                 data = {"plate": mostProbable}
                 data = json.dumps(data)
-
                 r = requests.post(url, params=data, headers=headers)
-                # mqttc.publish("plates", payload=data, qos=0, retain=True)
                 print r.status_code
 
         print mostProbable
@@ -72,10 +66,11 @@ while True:
                                           candidate['confidence'])
                 print(info)
 
+                confidence = candidate['confidence']
                 if candidate['plate'] in probablePlates.keys():
-                    probablePlates[candidate['plate']] += candidate['confidence']
+                    probablePlates[candidate['plate']] += confidence
                 else:
-                    probablePlates[candidate['plate']] = candidate['confidence']
+                    probablePlates[candidate['plate']] = confidence
 
             # mqttc.publish("plates", payload="end", qos=0, retain=True)
 
