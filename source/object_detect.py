@@ -7,10 +7,13 @@ import json
 
 # Get user supplied values
 cascPath = sys.argv[1]
-cap = cv2.VideoCapture(0)
-numObjsCount = []
-countFrames = 0
 numFrames = int(sys.argv[2])
+cameraIdx = int(sys.argv[3])
+
+countFrames = 0
+numObjsCount = []
+
+cap = cv2.VideoCapture(cameraIdx)
 url = "http://198.199.119.166/settransit/Z1/"
 
 # Create the haar cascade
