@@ -1,39 +1,96 @@
+"""Detects plates from webcam."""
 import cv2
-import cv
+from openalpr import Alpr
 import sys
 import os
 import requests
 import json
-from pytesseract import image_to_string
-from pytesseract import pytesseract as ocr
+# import paho.mqtt.client as client
 
-vidCap = cv2.VideoCapture(0)
+headers = {'content-type': 'application/json'}
+url = "http://requestb.in/vd5wylvd"
+alpr = Alpr("us", "/etc/openalpr/openalpr.conf",
+            "/usr/share/openalpr/runtime_data")
+
+if not alpr.is_loaded():
+    print "Error loading OpenALPR"
+    sys.exit(1)
+
+alpr.set_top_n(1)
+alpr.set_default_region("us")
+
+cap = cv2.VideoCapture(1)
+
+# mqttc = client.Client()
+# mqttc.connect("localhost", 1883, 60)
+
+probablePlates = {}
+wasPlate = False
+numEx = 5
+count = 0
 
 while True:
-    small = cv2.imread("plate.jpg")  # vidCap.read()
-    small = cv2.resize(small, (0, 0), fx=0.5, fy=0.5)
-    small = cv2.cvtColor(small, cv2.COLOR_BGR2GRAY)
-    small = cv2.medianBlur(small, 5)
+    ret, frame = cap.read()
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    temp = "frame%d.jpg" % ret
+    cv2.imwrite(temp, frame)
 
-    # Otsu's thresholding after Gaussian filtering
-    retOtsu, thOtsu = cv2.threshold(small, 128, 255, cv2.THRESH_OTSU)
-    
-    # temporately write images to storage
-    tempOtsu = 'plateTgOtsu.jpeg'
-    cv2.imwrite(tempOtsu, thOtsu)
-    tempOtsuTiff = 'plateTgOtsu.tiff'
-    img = ocr.Image.open(tempOtsu)
-    text = ocr.image_to_string(img)
+    results = alpr.recognize_file(temp)
 
-    # delete temp files
-    os.remove(tempOtsu)
-    # os.remove(tempOtsuTiff)
+    if not wasPlate:
+        count = 0
 
-    print text
+    if count == numEx:
+        items = probablePlates.items()
+        mostProbable = items[0]
+        for plate in items:
+            if plate[1] > mostProbable[1]:
+                mostProbable = plate[0]
+                data = {"plate": mostProbable}
+                data = json.dumps(data)
 
-    # img = Image.open(original)
-    # img.save('plate.tiff')
-    # im = Image.open(img)
-    # text = image_to_string(im)
-    # text = image_file_to_string(image_file)
-    break
+                r = requests.post(url, params=data, headers=headers)
+                # mqttc.publish("plates", payload=data, qos=0, retain=True)
+                print r.status_code
+
+        print mostProbable
+        count += 1
+        probablePlates = {}
+
+    elif count < numEx:
+        i = 0
+        count += 1
+        for plate in results['results']:
+            i += 1
+            print("Test #%d" % count)
+            print("   %12s %12s" % ("Plate", "Confidence"))
+            for candidate in plate['candidates']:
+                prefix = "-"
+                if candidate['matches_template']:
+                    prefix = "*"
+                info = "  %s %12s%12f" % (prefix, candidate['plate'],
+                                          candidate['confidence'])
+                print(info)
+
+                if candidate['plate'] in probablePlates.keys():
+                    probablePlates[candidate['plate']] += candidate['confidence']
+                else:
+                    probablePlates[candidate['plate']] = candidate['confidence']
+
+            # mqttc.publish("plates", payload="end", qos=0, retain=True)
+
+    wasPlate = bool(results['results'])
+
+    cv2.imshow("Frame", gray)
+
+    os.remove(temp)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# When everything done, release the capture
+cap.release()
+# Call when completely done to release memory
+alpr.unload()
+cv2.destroyAllWindows()
+# mqttc.disconnect()
