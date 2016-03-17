@@ -1,14 +1,12 @@
 #Open Parking -Edison
 
 ## Hardware Requirements
-Intel Edison Arduino Breakout
-
-Grove - Starter Kit Plus
-
-One microUSB.
+1. Intel Edison Arduino Breakout
+2. Grove - Starter Kit Plus
+3. One microUSB.
 
 To learn the basic of intel Edison enter to:
-intel.com/edison/getstarted
+https://software.intel.com/es-es/iot/library/edison-getting-started
 
 For the initial configuration enter to:
 https://theiotlearninginitiative.gitbooks.io/
@@ -18,23 +16,18 @@ https://theiotlearninginitiative.gitbooks.io/
 To start developing in your Edison, you need have the initial configuration that is in the link above and you'll also need the following extra requirements.
 
 ##Software Requirements
-Install PIP
-
-Install Git
+1. Install PIP
+2. Install Git
 
 ###Install the packages:
-Requests
-
-Json
+1. Requests
+2. Json
 
 ##Initial setup
-Connect the Edison whit Grove - Starter Kit Plus
-
-Connect the bottom sensor Pin - 8 
-
-Connect the touch sensor Pin - 4
-
-Connect the lcd Pin I2C - 4
+1. Connect the Edison whit Grove - Starter Kit Plus
+2. Connect the bottom sensor Pin - 8 
+3. Connect the touch sensor Pin - 4
+4. Connect the lcd Pin I2C - 4
 
 You need to clone our code from our git: 
 https://github.com/OpenParking/Open-Parkinig---Edison.git
