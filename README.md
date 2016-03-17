@@ -2,7 +2,9 @@
 
 ## Hardware Requirements
 Intel Edison Arduino Breakout
+
 Grove - Starter Kit Plus
+
 One microUSB.
 
 To learn the basic of intel Edison enter to:
@@ -17,15 +19,21 @@ To start developing in your Edison, you need have the initial configuration that
 
 ##Software Requirements
 Install PIP
+
 Install Git
-###Install the packages
+
+###Install the packages:
 Requests
+
 Json
 
 ##Initial setup
 Connect the Edison whit Grove - Starter Kit Plus
+
 Connect the bottom sensor Pin - 8 
+
 Connect the touch sensor Pin - 4
+
 Connect the lcd Pin I2C - 4
 
 You need to clone our code from our git: 
