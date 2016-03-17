@@ -19,7 +19,7 @@ if not alpr.is_loaded():
 alpr.set_top_n(1)
 alpr.set_default_region("us")
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 # mqttc = client.Client()
 # mqttc.connect("localhost", 1883, 60)
