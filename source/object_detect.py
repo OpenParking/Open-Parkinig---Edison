@@ -30,7 +30,7 @@ def ccw(A, B, C):
 # Return true if line segments AB and CD intersect
 def intersect(A, B, C, D):
     """"Intersection of two lines segments."""
-    return ccw(A,C,D) != ccw(B,C,D) and ccw(A,B,C) != ccw(A,B,D)
+    return ccw(A, C, D) != ccw(B,C,D) and ccw(A, B, C) != ccw(A, B, D)
 
 
 def rectIntersectLine(linePoints, rectPoints):
