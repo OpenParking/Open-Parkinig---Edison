@@ -15,9 +15,28 @@ numObjsCount = []
 
 cap = cv2.VideoCapture(cameraIdx)
 url = "http://198.199.119.166/settransit/Z1/"
+p1 = (660, 600)
+p2 = (220, 220)
 
 # Create the haar cascade
 objCascade = cv2.CascadeClassifier(cascPath)
+
+
+def ccw(A, B, C):
+    """intersect helper."""
+    return (C[1]-A[1]) * (B[0]-A[0]) > (B[1]-A[1]) * (C[0]-A[0])
+
+
+# Return true if line segments AB and CD intersect
+def intersect(A,B,C,D):
+    """"Returns if two lines intersects."""
+    return ccw(A,C,D) != ccw(B,C,D) and ccw(A,B,C) != ccw(A,B,D)
+
+
+def rectIntersectLine(linePoints, rectPoints):
+    """Returns if a line intersects a rectangle."""
+    diagonal1 = rectPoints
+    return intersect(linePoints[0], linePoints[1], rectPoints[0][0], rectPoints[0][1]) or intersect(linePoints[0], linePoints[1], rectPoints[1][0], rectPoints[1][1])
 
 while True:
     countFrames += 1
@@ -29,11 +48,17 @@ while True:
     # Detect faces in the image
     objects = objCascade.detectMultiScale(frame, 1.1, 2)
     # Draw a rectangle around the objects
+
+    validObjects = 0  # The number of objects that intersects the line
     for (x, y, w, h) in objects:
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
-    numObjsCount.append(len(objects))
+        if rectIntersectLine([p1, p2], [((x,y), (x+w, y+h)), ((x+w,y), (x, y+h))]):
+            validObjects += 1
 
+    numObjsCount.append(validObjects)
+
+    cv2.line(frame, p1, p2, 123)
     cv2.imshow("Frame", frame)
 
     if countFrames >= 10:
