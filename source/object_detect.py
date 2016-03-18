@@ -9,14 +9,15 @@ import json
 cascPath = sys.argv[1]
 numFrames = int(sys.argv[2])
 cameraIdx = int(sys.argv[3])
-
 countFrames = 0
+numObjsPrev = 0
 numObjsCount = []
 
 cap = cv2.VideoCapture(cameraIdx)
-url = "http://198.199.119.166/settransit/Z1/"
-p1 = (660, 600)
-p2 = (220, 220)
+zone = "Z1"
+url = "http://198.199.119.166/settransit/" + zone + '/'
+p1 = (710, 650)
+p2 = (220, 200)
 
 # Create the haar cascade
 objCascade = cv2.CascadeClassifier(cascPath)
@@ -28,14 +29,13 @@ def ccw(A, B, C):
 
 
 # Return true if line segments AB and CD intersect
-def intersect(A,B,C,D):
-    """"Returns if two lines intersects."""
+def intersect(A, B, C, D):
+    """"Intersection of two lines segments."""
     return ccw(A,C,D) != ccw(B,C,D) and ccw(A,B,C) != ccw(A,B,D)
 
 
 def rectIntersectLine(linePoints, rectPoints):
-    """Returns if a line intersects a rectangle."""
-    diagonal1 = rectPoints
+    """Intersection of a line segment and a rectangle."""
     return intersect(linePoints[0], linePoints[1], rectPoints[0][0], rectPoints[0][1]) or intersect(linePoints[0], linePoints[1], rectPoints[1][0], rectPoints[1][1])
 
 while True:
@@ -51,9 +51,14 @@ while True:
 
     validObjects = 0  # The number of objects that intersects the line
     for (x, y, w, h) in objects:
-        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        x += 10
+        y += 10
+        w -= 40
+        h -= 40
+        if rectIntersectLine([p1, p2],
+                            [((x,y), (x+w, y+h)), ((x+w,y), (x, y+h))]):
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
-        if rectIntersectLine([p1, p2], [((x,y), (x+w, y+h)), ((x+w,y), (x, y+h))]):
             validObjects += 1
 
     numObjsCount.append(validObjects)
@@ -64,10 +69,12 @@ while True:
     if countFrames >= 10:
         counter = Counter(numObjsCount)
         numObjs = counter.most_common(1)[0][0]
-        print(numObjs)
         countFrames = 0
         numObjsCount = []
-        put(url + str(numObjs))
+        if numObjs != numObjsPrev:
+            print("Cars in " + zone + ": " + str(numObjs))
+            put(url + str(numObjs))
+            numObjsPrev = numObjs
         del counter
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
