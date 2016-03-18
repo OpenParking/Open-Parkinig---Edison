@@ -3,7 +3,6 @@ import cv2
 import sys
 from collections import Counter
 from requests import put
-import json
 
 # Get user supplied values
 cascPath = sys.argv[1]
