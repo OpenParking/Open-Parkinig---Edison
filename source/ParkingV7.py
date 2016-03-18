@@ -1,4 +1,4 @@
-#File: Parking-Edison-V6
+#File: Parking-Edison-V7
 
 # ----- Seccion Import ---
 import time
@@ -37,7 +37,7 @@ def configureFile():
         fo.write(zone)
         fo.close()
         return zone
-        
+
 #Funtion checkCapacity
 #This function send request.get for obtain,
 #the total cars that the zone have in the moment
@@ -85,9 +85,9 @@ def exit(touch, tId, url, current, capacity):
         if (current < capacity):
 	    r = requests.put(url+"/"+tId)
 	    current = checkCapacity(zone, urlzone)
-            changeLCD(current, capacity)    
+            changeLCD(current, capacity)
 
-#Function enter              
+#Function enter
 #Function to detect the entrance to the zone and sends a signal to the server and takes one from the currentCapacity
 def enter(button, tId, url, current, capacity):
     if(button.value() != 0):
@@ -115,7 +115,7 @@ myLcd.setCursor(0, 0)
 myLcd.write("zone: " +str(checkZone(zone ,urlzone)))
 changeLCD(currentCapacity, capacity)
 
-# Create the touch object using GPIO pin 4    
+# Create the touch object using GPIO pin 4
 touch1 = ttp223.TTP223(4)
 # Create the button object using GPIO pin 8
 button = grove.GroveButton(8)

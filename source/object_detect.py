@@ -9,12 +9,12 @@ import json
 cascPath = sys.argv[1]
 numFrames = int(sys.argv[2])
 cameraIdx = int(sys.argv[3])
+zone = sys.argv[4]
 countFrames = 0
 numObjsPrev = 0
 numObjsCount = []
 
 cap = cv2.VideoCapture(cameraIdx)
-zone = "Z1"
 url = "http://198.199.119.166/settransit/" + zone + '/'
 p1 = (710, 650)
 p2 = (220, 200)
