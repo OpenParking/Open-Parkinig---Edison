@@ -74,18 +74,18 @@ def changeLCD(value, cap):
         myLcd.setColor(0,255,0) #Sets LCD to green
     myLcd.setCursor(1, 0)
     if(value < 10):
-        myLcd.write("Available: " +"0"+str(currentCapacity))
+        myLcd.write("Available: " +"0"+str(value))
     else:
-        myLcd.write("Available: " +str(currentCapacity))
+        myLcd.write("Available: " +str(value))
 
 #Function exit
 #Funtion to detect exit to the zone and sends a signal to the server and adds one to the currentCapacity
 def exit(touch, tId, url, current, capacity):
     if touch.isPressed():
         if (current < capacity):
-	    r = requests.put(url+"/"+tId)
-            current = checkCapacity()
-            changeLCD(current, capacity)    
+	    current +=1;
+            changeLCD(current, capacity)
+	    r = requests.put(url+"/"+tId)    
 
 #Function enter              
 #Function to detect the entrance to the zone and sends a signal to the server and takes one from the currentCapacity
