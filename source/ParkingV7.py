@@ -83,18 +83,18 @@ def changeLCD(value, cap):
 def exit(touch, tId, url, current, capacity):
     if touch.isPressed():
         if (current < capacity):
-	    current +=1;
-            changeLCD(current, capacity)
-	    r = requests.put(url+"/"+tId)    
+	    r = requests.put(url+"/"+tId)
+	    current = checkCapacity(zone, urlzone)
+            changeLCD(current, capacity)    
 
 #Function enter              
 #Function to detect the entrance to the zone and sends a signal to the server and takes one from the currentCapacity
 def enter(button, tId, url, current, capacity):
     if(button.value() != 0):
         if (current > 0):
-            current -= 1
+	    r = requests.put(url+"/"+tId)
+            current = checkCapacity(zone, urlzone)
             changeLCD(current, capacity)
-            r = requests.put(url+"/"+tId)
 
 #URL from the app
 urlEntrance = "http://198.199.119.166/enterzone"
