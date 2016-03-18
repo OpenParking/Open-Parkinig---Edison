@@ -73,7 +73,12 @@ while True:
         numObjsCount = []
         if numObjs != numObjsPrev:
             print("Cars in " + zone + ": " + str(numObjs))
-            put(url + str(numObjs))
+
+            try:
+                put(url + str(numObjs))
+            except:
+                print("Something went wrong with the put request...")
+
             numObjsPrev = numObjs
         del counter
 
