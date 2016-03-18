@@ -20,8 +20,9 @@ def inputDetection(zone,url):
         return True
 
 #Funtion configureFile
-#Function to load configure file or create it if it doesn´t exist
+#Function to load configure file or create it if it doesnt exist
 def configureFile():
+    global Correct
     if(os.path.isfile("configure.txt")):
         #Reads the configure file to load the zone
         fo = open("configure.txt")
@@ -32,7 +33,7 @@ def configureFile():
         #input of the zone
         zone = raw_input("Zone ID: ")
         Correct = inputDetection(zone,urlzone)
-        fo = open("configure.txt", "w")
+       	fo = open("configure.txt", "w")
         fo.write(zone)
         fo.close()
         return zone
@@ -43,14 +44,14 @@ def configureFile():
 def checkCapacity(tId,url):
     r = requests.get(url+"/"+tId)
     data = r.json()
-    return data["capacity"] - data["full"]
+    return int(data["capacity"]) - int(data["full"]) + int(data["intransit"])
 
 #Function checkMax
 #This function to get the capacity of the zone from json
 def checkMax(tId,url):
     r = requests.get(url+"/"+tId)
     data = r.json()
-    return data["capacity"]
+    return float(data["capacity"])
 
 #Function checkZone
 #This function to get the zone of name from the json
@@ -82,9 +83,9 @@ def changeLCD(value, cap):
 def exit(touch, tId, url, current, capacity):
     if touch.isPressed():
         if (current < capacity):
-            current += 1
-            changeLCD(current, capacity)
-            r = requests.put(url+"/"+tId)    
+	    r = requests.put(url+"/"+tId)
+            current = checkCapacity()
+            changeLCD(current, capacity)    
 
 #Function enter              
 #Function to detect the entrance to the zone and sends a signal to the server and takes one from the currentCapacity
@@ -95,12 +96,12 @@ def enter(button, tId, url, current, capacity):
             changeLCD(current, capacity)
             r = requests.put(url+"/"+tId)
 
-
 #URL from the app
 urlEntrance = "http://198.199.119.166/enterzone"
 urlExit = "http://198.199.119.166/leavezone"
 urlzone = "http://198.199.119.166/zones"
 
+#Reading the configure file
 zone = configureFile()
 
 #Create the lcd object
@@ -118,6 +119,8 @@ changeLCD(currentCapacity, capacity)
 touch1 = ttp223.TTP223(4)
 # Create the button object using GPIO pin 8
 button = grove.GroveButton(8)
+
+Correct = inputDetection(zone, urlzone)
 
 #Flag that checks if the Zone input exist on the db
 while Correct:
