@@ -1,4 +1,4 @@
-#Open Parking -Edison
+# Open Parking -Edison
 
 ## Hardware Requirements
 1. Intel Edison Arduino Breakout
